@@ -29,13 +29,11 @@ public:
     
     int Initialize(const std::string &host, int connectionTimeout);
     
-    int RegisterEventHandler(ZooKeeperEventHandler *eventhandler);
-    
     const std::string& GetHost() const;
     
     int GetConnectionTimeout() const;
     
-    void FireEvent(zhandle_t *zhandle, int state);
+    void FireEvent(zhandle_t *zhandle, int state, int type, const char *path);
     
     int CreateNode(const std::string &path, const std::string &data, int flag);
 
@@ -54,6 +52,8 @@ public:
     int DeleteNode(const std::string &path);
 
     int AddEventHandler(const std::string &path, ZooKeeperEventHandler *eventhandler);
+
+    int AddEventHandler(ZookeeperEventHandler *eventhandler);
     
     bool RemoveEventHandler(const std::string &path);
 

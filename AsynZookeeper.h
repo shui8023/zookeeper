@@ -15,22 +15,26 @@
 #include "recordio.h"
 #include "zookeeper_version.h"
 #include "zookeeper.jute.h"
+#include "ZooKeeperManager.h"
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace ZooKeeper {
 class AsynZookeeper {
 public:
-    AsynZookeeper(std::string &host, int recv_timeout, int flag);
+    AsynZookeeper(const std::string &host, int recv_timeout);
 
     AsynZookeeper();
 
-    bool Init(std::string &host, int recv_time, int flag);
+    bool Init(const std::string &host, int recv_time);
+
+    bool Init();
     /* *
      * return the socket address for current connection such as 27.0.0.1:2188
      * */
-    std::string GetConnectHost();
+    const std::string& GetConnectHost();
     /* *
      * Create a node in ZooKeeper 
      * \param path the name of node path
@@ -38,35 +42,40 @@ public:
      * \param zook_name the name of node
      * \param flag Create flags
      * */
-    int Create(std::string &path, std::string &data, std::string &zook_name, int flag);
+    int Create(const std::string &path, const std::string &data,  int flag);
+
+    int Create(const std::string &path, const std::string &data, std::string &name);
     /* *
      * Delete a Node in ZooKeeper
      * \param path the name of node path
      * \param version the expected version of the node, the function will fail if the 
      *  actual version of the node does not match the expected version
      * */
-    int Delete(std::string &path, int version);
     
-    int Exists(std::string &path, int watch);
+    int Get(const std::string &path, std::string &data);
 
-    int Get(std::string &path, std::string data, int version);
+    int Get(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler);
 
-    int GetChildren(std:string &path, std::vector<std::string> &zk_names);
+    int GetChildren(const std::string &path, std::map<std::string> &data);
+
+    int GetChildren(const std::string &path, std::map<std::string> &data, ZooKeeperEventHandler *eventhandler);
+
+    int Set(const std::string &path, const std::string &data);
+
+    int Delete(const std::string &path);
+
+    int AddEvent(const std::string &path, ZookeeperEventHandler *eventhandler);
+
+    int AddEvent(ZooKeeperEventHandler *eventhandler);
+
+    bool RemoveEvent(const std::string &path);
 
     ~AsynZookeeper();
-private:
-    /* *
-     * get the state of the zookeeper connection
-     * */
-    int GetZooState();
 
 private:
-    zhandle_t * _zkhandle;
-    const clientid_t *_clientid;
-    std::string _host;
-    int _timeout;
+    ZooKeeperManager _zk;
 };
 
-};
+} // namespace
 
 #endif //ASYNZOOKEEPER_H_
