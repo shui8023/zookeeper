@@ -24,13 +24,11 @@
 namespace ZooKeeper {
 class AsynZookeeper {
 public:
-    AsynZookeeper(const std::string &host, int recv_timeout);
 
     AsynZookeeper();
 
     bool Init(const std::string &host, int recv_time);
 
-    bool Init();
     /* *
      * return the socket address for current connection such as 27.0.0.1:2188
      * */

@@ -22,5 +22,6 @@ class ZooKeeperEvent {
 public:
     static void EventHandler(zhandle_t *zhandle, int type, int state, const char *path, void *userData);
 };
+
 } // ZooKeeper
 #endif 

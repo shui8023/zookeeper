@@ -9,6 +9,9 @@
 #ifndef ZOOKEEPEREVENTHANDLER_H_
 #define ZOOKEEPEREVENTHANDLER_H_
 
+#include <string>
+#include <iostream>
+
 namespace ZooKeeper {
 
 class ZooKeeperEventHandler {

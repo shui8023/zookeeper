@@ -10,10 +10,6 @@
 
 namespace ZooKeeper {
 
-AsynZookeeper::AsynZookeeper(const std::string &host, int recv_timeout) {
-    _zk = ZooKeeperManager(host, recv_timeout);
-}
-
 AsynZookeeper::AsynZookeeper() {
 
 }
@@ -22,9 +18,6 @@ bool AsynZookeeper::Init(const std::string &host, int recv_time) {
     return _zk.Initialize(host, recv_time);
 }
 
-bool AsynZookeeper::Init() {
-    return true;   
-}
 /* *
  * return the socket address for current connection such as 27.0.0.1:2188
  * */
@@ -53,26 +46,44 @@ int AsynZookeeper::Create(const std::string &path, const std::string &data, std:
  *  actual version of the node does not match the expected version
  * */
 
-int Get(const std::string &path, std::string &data) {
-    
+int AsynZookeeper::Get(const std::string &path, std::string &data) {
+    return _zk.GetNode(path, data)   
 }
 
-int Get(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler);
+int AsynZookeeper::Get(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler) {
+    return _zk.GetNode(path, data, eventhandler);
+}
 
-int GetChildren(const std::string &path, std::map<std::string> &data);
+int AsynZookeeper::GetChildren(const std::string &path, std::map<std::string> &data) {
+    return _zk.GetNodeChildren(path, data);
+}
 
-int GetChildren(const std::string &path, std::map<std::string> &data, ZooKeeperEventHandler *eventhandler);
+int AsynZookeeper::GetChildren(const std::string &path, std::map<std::string> &data, ZooKeeperEventHandler *eventhandler) {
+    return _zk.GetNodeChildren(path, data, eventhandler);
+}
 
-int Set(const std::string &path, const std::string &data);
+int AsynZookeeper::Set(const std::string &path, const std::string &data) {
+    return _zk.SetNode(path, data);
+}
 
-int Delete(const std::string &path);
+int AsynZookeeper::Delete(const std::string &path) {
+    return _zk.DeleteNode(path);
+}
 
-int AddEvent(const std::string &path, ZookeeperEventHandler *eventhandler);
+int AsynZookeeper::AddEvent(const std::string &path, ZookeeperEventHandler *eventhandler) {
+    return _zk.AddEventHandler(path, eventhandler);
+}
 
-int AddEvent(ZooKeeperEventHandler *eventhandler);
+int AsynZookeeper::AddEvent(ZooKeeperEventHandler *eventhandler) {
+    return _zk.AddEventHandler("", eventhandler);
+}
 
-bool RemoveEvent(const std::string &path);
+bool AsynZookeeper::RemoveEvent(const std::string &path) {
+    return _zk.RemoveEventHandler(path);
+}
 
-~AsynZookeeper();
+AsynZookeeper::~AsynZookeeper() {
+
+}
 
 } // namespace

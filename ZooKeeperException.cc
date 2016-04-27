@@ -28,7 +28,7 @@ std::string itos(int errno) {
 namespace ZooKeeper {
     
 ZooKeeperException::ZooKeeperException(int error) {
-    char *description = std::strerror(error); 
+    char *description = zerror(error); 
     
     if (errno == ZSYSTEMERROR) {
         std::string result = "Error " + itos(error) + "Description " + description + "Errno " + itos(errno);
@@ -45,11 +45,11 @@ ZooKeeperException::ZooKeeperException(int error, const std::string &description
     _what.assign(result);
 }
 
-ZooKeeperException::~ZooKeeperException() {
+ZooKeeperException::~ZooKeeperException() throw() {
     
 }
 
-const char *ZooKeeperException::What() const {
+const char *ZooKeeperException::What() const throw() {
     return _what.c_str();
 }
 

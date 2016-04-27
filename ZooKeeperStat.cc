@@ -14,6 +14,14 @@ ZooKeeperStat::ZooKeeperStat(const Stat &stat): _stat(stat) {
 
 }
 
+ZooKeeperStat::ZooKeeperStat() {
+    
+}
+
+ZooKeeperStat& ZooKeeperStat::operator=(const Stat &stat) {
+    _stat = stat;   
+}
+
 ZooKeeperStat::~ZooKeeperStat() {
 
 }

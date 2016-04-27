@@ -14,6 +14,8 @@
 #include "ZooKeeperException.h"
 
 #include <map>
+#include <vector>
+#include <string>
 
 namespace ZooKeeper{
 
@@ -53,22 +55,22 @@ public:
 
     int AddEventHandler(const std::string &path, ZooKeeperEventHandler *eventhandler);
 
-    int AddEventHandler(ZookeeperEventHandler *eventhandler);
+    int AddEventHandler(ZooKeeperEventHandler *eventhandler);
     
     bool RemoveEventHandler(const std::string &path);
 
 private:
-    bool Insert(const std:string &path, ZooKeeperEventHandler * eventHandler);
+    bool Insert(const std::string &path, ZooKeeperEventHandler *eventHandler);
     bool Erase(const std::string &path);
 
 private:
     static const int MAX_PATH_BUFFER = 1024;
     static const int MAX_DATA_BUFFER = 1024 * 1024;
     std::string _host;
-    zhandler_t  *_handle;
+    zhandle_t  *_handle;
     bool _isInit;
     int _timeOut;
-    typedef std:map<std::string, ZooKeeperEventHandler *> EvnetHandlerMap;
+    typedef std::map<std::string, ZooKeeperEventHandler *> EventHandlerMap;
     EventHandlerMap _eventHandlermap;
     ZooKeeperStat _stat;
 };

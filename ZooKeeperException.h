@@ -15,13 +15,13 @@
 
 namespace ZooKeeper {
 
-class ZooKeeperException {
+class ZooKeeperException: std::exception {
 public:
     explicit ZooKeeperException(int error);
     explicit ZooKeeperException(int error, const std::string &description);
-    virtual ~ZooKeeperException() override; /* C++ 11 */
+    virtual ~ZooKeeperException() throw(); /* C++ 11 */
 
-    virtual const char *what() const override;
+    virtual const char *what() const throw();
 
 private:
     std::string _what;
