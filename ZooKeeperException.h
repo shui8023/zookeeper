@@ -12,6 +12,7 @@
 
 #include <exception>
 #include <string>
+#include "zookeeper.h"
 
 namespace ZooKeeper {
 
@@ -21,7 +22,7 @@ public:
     explicit ZooKeeperException(int error, const std::string &description);
     virtual ~ZooKeeperException() throw(); /* C++ 11 */
 
-    virtual const char *what() const throw();
+    virtual const char *What() const throw();
 
 private:
     std::string _what;

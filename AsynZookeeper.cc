@@ -47,18 +47,18 @@ int AsynZookeeper::Create(const std::string &path, const std::string &data, std:
  * */
 
 int AsynZookeeper::Get(const std::string &path, std::string &data) {
-    return _zk.GetNode(path, data)   
+    return _zk.GetNode(path, data);
 }
 
 int AsynZookeeper::Get(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler) {
     return _zk.GetNode(path, data, eventhandler);
 }
 
-int AsynZookeeper::GetChildren(const std::string &path, std::map<std::string> &data) {
+int AsynZookeeper::GetChildren(const std::string &path, std::vector<std::string> &data) {
     return _zk.GetNodeChildren(path, data);
 }
 
-int AsynZookeeper::GetChildren(const std::string &path, std::map<std::string> &data, ZooKeeperEventHandler *eventhandler) {
+int AsynZookeeper::GetChildren(const std::string &path, std::vector<std::string> &data, ZooKeeperEventHandler *eventhandler) {
     return _zk.GetNodeChildren(path, data, eventhandler);
 }
 
@@ -70,7 +70,7 @@ int AsynZookeeper::Delete(const std::string &path) {
     return _zk.DeleteNode(path);
 }
 
-int AsynZookeeper::AddEvent(const std::string &path, ZookeeperEventHandler *eventhandler) {
+int AsynZookeeper::AddEvent(const std::string &path, ZooKeeperEventHandler *eventhandler) {
     return _zk.AddEventHandler(path, eventhandler);
 }
 

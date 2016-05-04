@@ -1,9 +1,9 @@
 #compiler the zookeeper api
 
 
-TARGET=test_zookeeper.cc
+TARGET=aaaaaa
 
-OBJECTS=$(shell find ../ -name "*.cc")
+OBJECTS=$(filter-out ../test/%.cc, $(shell find ../ -name "*.cc"))
 
 
 FLAG=-I /usr/local/include/zookeeper -l zookeeper_mt -std=c++11

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     zoo_set_debug_level(ZOO_LOG_LEVEL_WARN);
     zhandle_t  *zk;
-    std::string  host = "119.29.159.86:2181,119.29.111.219:2181,119.29.57.93:2181";
+    std::string  host = "127.0.0.1:2181";
 
     zk = zookeeper_init(host.c_str(), function, 115, NULL, NULL,0);
     if (zk == NULL) {

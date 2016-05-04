@@ -88,7 +88,7 @@ int ZooKeeperManager::CreateNode(const std::string &path, const std::string &dat
     return result;
 }
 
-int ZooKeeperManager::CreateSequenNode(const std::string &path, const std::string &data, const std::string &nodeName) {
+int ZooKeeperManager::CreateSequenNode(const std::string &path, const std::string &data, std::string &nodeName) {
     int result;
     char sequencedPath[MAX_PATH_BUFFER];
 
@@ -104,9 +104,10 @@ int ZooKeeperManager::CreateSequenNode(const std::string &path, const std::strin
 int ZooKeeperManager::GetNode(const std::string &path, std::string &data) {
     char buffer[MAX_DATA_BUFFER];
     int length = MAX_DATA_BUFFER;
+    Stat st = _stat.GetStat();
     int result;
 
-    result = zoo_wget(_handle, path.c_str(), NULL, NULL, buffer, &length, &_stat.GetStat());
+    result = zoo_wget(_handle, path.c_str(), NULL, NULL, buffer, &length, &st);
     if (result == ZOK) {
         data = std::string(buffer);
     }
@@ -118,10 +119,11 @@ int ZooKeeperManager::GetNode(const std::string &path, std::string &data, ZooKee
     char buffer[MAX_DATA_BUFFER];
     int length = MAX_DATA_BUFFER;
     int result;
+    Stat st = _stat.GetStat();
 
     Insert(path, eventhandler);
 
-    result = zoo_wget(_handle, path.c_str(), ZooKeeperEvent::EventHandler,  this, buffer, &length, &_stat.GetStat());
+    result = zoo_wget(_handle, path.c_str(), ZooKeeperEvent::EventHandler,  this, buffer, &length, &st);
     if (result == ZOK) {
         data = std::string(buffer, strlen(buffer));
     }
@@ -129,11 +131,12 @@ int ZooKeeperManager::GetNode(const std::string &path, std::string &data, ZooKee
     return result;
 }
 
-int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::string> childrenName) {
+int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::string> &childrenName) {
     String_vector stringvector;
     int result;
+    Stat st = _stat.GetStat();
 
-    result = zoo_wget_children2(_handle, path.c_str(), NULL, NULL, &stringvector, &_stat.GetStat());
+    result = zoo_wget_children2(_handle, path.c_str(), NULL, NULL, &stringvector, &st);
     if (result == ZOK) {
         for (uint32_t i = 0; i != stringvector.count; i++) {
             childrenName.push_back(stringvector.data[i]);
@@ -143,14 +146,15 @@ int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::
     return result;
 }
 
-int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::string> childrenName,
+int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::string> &childrenName,
         ZooKeeperEventHandler *eventhandler) {
     String_vector stringvector;
     int result;
+    Stat st = _stat.GetStat();
     
     Insert(path, eventhandler);
 
-    result = zoo_wget_children2(_handle, path.c_str(), ZooKeeperEvent::EventHandler, this, &stringvector, &_stat.GetStat());
+    result = zoo_wget_children2(_handle, path.c_str(), ZooKeeperEvent::EventHandler, this, &stringvector, &st);
     if (result == ZOK) {
         for (uint32_t i = 0; i != stringvector.count; i++) {
             childrenName.push_back(stringvector.data[i]);
@@ -161,8 +165,9 @@ int ZooKeeperManager::GetNodeChildren(const std::string &path, std::vector<std::
 }
 int ZooKeeperManager::SetNode(const std::string &path, const std::string &data) {
     int result;
+    Stat st = _stat.GetStat();
 
-    result = zoo_set2(_handle, path.c_str(), data.c_str(), data.size(), -1, &_stat.GetStat());
+    result = zoo_set2(_handle, path.c_str(), data.c_str(), data.size(), -1, &st);
 
     return result;
 }
@@ -179,14 +184,16 @@ int ZooKeeperManager::DeleteNode(const std::string &path) {
 int ZooKeeperManager::AddEventHandler(const std::string &path, ZooKeeperEventHandler *eventhandler) {
     Insert(path, eventhandler);
     int result;
+    Stat st = _stat.GetStat();
 
-    result = zoo_wexists(_handle, path.c_str(), ZooKeeperEvent::EventHandler, this, &_stat.GetStat());
+    result = zoo_wexists(_handle, path.c_str(), ZooKeeperEvent::EventHandler, this, &st);
 
     return result;
 }
 
-void ZooKeeperManager::AddEventHandler(ZooKeeperEventHandler *eventhandler) {
+int  ZooKeeperManager::AddEventHandler(ZooKeeperEventHandler *eventhandler) {
     Insert("", eventhandler);
+    return 0;
 }
 
 bool ZooKeeperManager::RemoveEventHandler(const std::string &path) {

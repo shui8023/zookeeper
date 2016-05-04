@@ -16,6 +16,8 @@
 #include "zookeeper_version.h"
 #include "zookeeper.jute.h"
 #include "ZooKeeperManager.h"
+#include "ZooKeeperEvent.h"
+#include "ZooKeeperEventHandler.h"
 
 #include <string>
 #include <vector>
@@ -54,15 +56,15 @@ public:
 
     int Get(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler);
 
-    int GetChildren(const std::string &path, std::map<std::string> &data);
+    int GetChildren(const std::string &path, std::vector<std::string> &data);
 
-    int GetChildren(const std::string &path, std::map<std::string> &data, ZooKeeperEventHandler *eventhandler);
+    int GetChildren(const std::string &path, std::vector<std::string> &data, ZooKeeperEventHandler *eventhandler);
 
     int Set(const std::string &path, const std::string &data);
 
     int Delete(const std::string &path);
 
-    int AddEvent(const std::string &path, ZookeeperEventHandler *eventhandler);
+    int AddEvent(const std::string &path, ZooKeeperEventHandler *eventhandler);
 
     int AddEvent(ZooKeeperEventHandler *eventhandler);
 

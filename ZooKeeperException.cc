@@ -19,16 +19,16 @@ extern "C" {
 }
 #endif 
 
-std::string itos(int errno) {
+std::string itos(int err) {
     std::stringstream ss;
-    ss << i;
+    ss << err;
     return ss.str();
 }
 
 namespace ZooKeeper {
     
 ZooKeeperException::ZooKeeperException(int error) {
-    char *description = zerror(error); 
+    const char *description = zerror(error); 
     
     if (errno == ZSYSTEMERROR) {
         std::string result = "Error " + itos(error) + "Description " + description + "Errno " + itos(errno);

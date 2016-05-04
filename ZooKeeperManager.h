@@ -39,15 +39,15 @@ public:
     
     int CreateNode(const std::string &path, const std::string &data, int flag);
 
-    int CreateSequenNode(const std::string &path, const std::string &data, const std::string &nodeName);
+    int CreateSequenNode(const std::string &path, const std::string &data, std::string &nodeName);
     
     int GetNode(const std::string &path, std::string &data);
     
     int GetNode(const std::string &path, std::string &data, ZooKeeperEventHandler *eventhandler);
     
-    int GetNodeChildren(const std::string &path, std::vector<std::string> childrenName);
+    int GetNodeChildren(const std::string &path, std::vector<std::string> &childrenName);
 
-    int GetNodeChildren(const std::string &path, std::vector<std::string> childrenName,
+    int GetNodeChildren(const std::string &path, std::vector<std::string> &childrenName,
                         ZooKeeperEventHandler *eventhandler);
     int SetNode(const std::string &path, const std::string &data);
     
