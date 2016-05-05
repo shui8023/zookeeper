@@ -69,6 +69,7 @@ void ZooKeeperManager::FireEvent(zhandle_t *zhandle, int state, int type, const 
             if (type == ZOO_CREATED_EVENT) {
                 it->second->OnNodeCreated(it->first);
             } else if(type == ZOO_CHANGED_EVENT) {
+                std::cout << path << std::endl;
                 it->second->OnNodeChanged(it->first);
             } else if(type == ZOO_CHILD_EVENT) {
                 it->second->OnNodeChildrenChanged(it->first);
